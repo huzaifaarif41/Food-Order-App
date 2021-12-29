@@ -10,7 +10,7 @@ const HeaderCartButton = (props) => {
 
   const { items } = cartCtx;
 
-  const numberOfCartItems = items.reduce((curNumber, item) => {
+  const numberOfCartItems = items.reduce((curNumber, item) => { //reduce is a method in the end  which allows us to transform an array of data is a single value
     return curNumber + item.amount;
   }, 0);
 

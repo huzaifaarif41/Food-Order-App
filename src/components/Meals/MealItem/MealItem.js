@@ -8,11 +8,12 @@ function MealItem(props) {
 
   const price = `$${props.price.toFixed(2)}`;
 
+  //here we add the addToCartHandler function which we get validated amount as a parameter and pass a pointer to MealItemForm to onAddToCart prop which I executing in the MealItemForm Component
   const addToCartHandler = (amount) => {
     cartCtx.addItem({
       id:props.id,
       name: props.name,
-      amount: amount,
+      amount: amount, //amount which we get here as a parameter in addToCartHandler function through form
       price: props.price
     })
 

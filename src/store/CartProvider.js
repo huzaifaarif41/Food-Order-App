@@ -6,7 +6,8 @@ const defaultCartState = {
   items: [],
   totalAmount: 0,
 };
-
+//we use reducer function outside a component function because this reducer function wont need anything from that component, it wont need any surrounding data to find in this component and it shouldn't be re-created all the time when component is re-evaluated.
+//useReducer having 2 arguments, state and action.. action is dispatched by you later in your code and state is last state snapshot of the state managed by reducer.
 const cartReducer = (state, action) => {
   if (action.type === 'ADD') {
     const updatedTotalAmount =
@@ -26,7 +27,7 @@ const cartReducer = (state, action) => {
       updatedItems = [...state.items];
       updatedItems[existingCartItemIndex] = updatedItem;
     } else {
-      updatedItems = state.items.concat(action.item);
+      updatedItems = state.items.concat(action.item); //concat is a built-in method which adds a new item to an array but unlike push(),it doesnt edit the existing array but return a new array. You wanna update a state that you dont wanna edit your old state snapshot because value reference thing in JS, that means that existing data in memory gets edited but instead you wanna generate a new state object which you return
     }
 
     return {
@@ -55,6 +56,10 @@ const cartReducer = (state, action) => {
     };
   }
 
+  if(action.type==='CLEAR'){
+    return defaultCartState
+  }
+
   return defaultCartState;
 };
 
@@ -65,11 +70,14 @@ const CartProvider = (props) => {
   );
 
   const addItemToCartHandler = (item) => {
-    dispatchCartAction({ type: 'ADD', item: item });
+    dispatchCartAction({ type: 'ADD', item: item });  //dispatch Action could be a number or a text but its an object that allows to identify the action inside of reducer func. And its a type property but name is upto you,,Now to add the Item in the reducer function , I also wanna forward the item as part of action, So I will add a new property to action object and name it 'item' but name is also upto you, and point the item argument here, so i am forwarding the item 
   };
 
   const removeItemFromCartHandler = (id) => {
     dispatchCartAction({ type: 'REMOVE', id: id });
+  };
+  const clearCartHandler = () => {
+    dispatchCartAction({ type: 'CLEAR' })
   };
 
   const cartContext = {
@@ -77,6 +85,7 @@ const CartProvider = (props) => {
     totalAmount: cartState.totalAmount,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
+    clearCart:clearCartHandler,
   };
 
   return (

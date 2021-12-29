@@ -23,11 +23,13 @@ function MealItemForm(props) {
     }
     //trim() use for removing any extra white spaces
 
-    props.onAddToCart(enteredAmountNumber)
+    props.onAddToCart(enteredAmountNumber);
   };
   return (
     <form className={classes.form} onSubmit={submitHandler}>
       <Input
+        //forwardRef is used for using a ref in an input component because it is a custom component and it doesn't work here so we put forwardRef in a Input Custom component.
+
         ref={amountInputRef}
         label='Amount'
         input={{
@@ -40,7 +42,7 @@ function MealItemForm(props) {
         }}
       />
       <button> + Add</button>
-      { !amountIsValid && <p>Please Enter a valid Amount (1-5)</p> }
+      {!amountIsValid && <p>Please Enter a valid Amount (1-5)</p>}
     </form>
   );
 }
